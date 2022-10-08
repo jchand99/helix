@@ -1,5 +1,14 @@
 ; Start tags
 
+((element (start_tag (tag_name) @tag) (text) @markup.heading)
+ (#match? @tag "^(h[0-9]|title)$"))
+
+((element (start_tag (tag_name) @tag) (text) @markup.bold)
+ (#match? @tag "^(strong|b)$"))
+
+((element (start_tag (tag_name) @tag) (text) @markup.italic)
+ (#match? @tag "^(em|i)$"))
+
 ((element (start_tag (tag_name) @tag) (text) @markup.underline)
  (#eq? @tag "u"))
 
