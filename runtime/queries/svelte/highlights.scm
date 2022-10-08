@@ -1,10 +1,3 @@
-; Attributes
-
-(attribute (attribute_name) @variable.other.member)
-(attribute (attribute_name ["{" "}"] @punctuation.bracket))
-(attribute "=" @punctuation.delimiter)
-(attribute (expr_attribute_value (expression ["{" "}"] @punctuation.bracket)))
-
 ; Start tags
 
 ((element (start_tag (tag_name) @tag) (text) @markup.underline)
@@ -29,10 +22,13 @@
 ((element (end_tag (tag_name) @constructor (#match? @constructor "^[A-Z]"))))
 ((element (end_tag ["</" ">"] @punctuation.bracket)))
 
+; Attribute
+
+(attribute (attribute_name) @variable.other.member)
 ((attribute
-   (attribute_name) @_attr
+   (attribute_name) @attr
    (quoted_attribute_value (attribute_value) @markup.link.url))
- (#match? @_attr "^(href|src)$"))
+ (#match? @attr "^(href|src)$"))
 
 (tag_name) @tag
 (attribute_name) @variable.other.member
