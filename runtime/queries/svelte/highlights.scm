@@ -18,18 +18,18 @@
 ((element (start_tag (tag_name) @tag) (text) @markup.link.url)
  (#eq? @tag "a"))
 
-((element (start_tag (tag_name) @constructor (#match? @constructor "^[A-Z]"))))
-((element (start_tag ["<" ">"] @punctuation.bracket)))
+((element (start_tag (tag_name) @constructor
+ (#match? @constructor "^[A-Z]"))))
 
 ; Self closing tags
 
-((element (self_closing_tag ["<" ">" "/>"] @punctuation.bracket)))
-((element (self_closing_tag (tag_name) @constructor (#match? @constructor "^[A-Z]"))))
+((element (self_closing_tag (tag_name) @constructor
+ (#match? @constructor "^[A-Z]"))))
 
 ; End tags
 
-((element (end_tag (tag_name) @constructor (#match? @constructor "^[A-Z]"))))
-((element (end_tag ["</" ">"] @punctuation.bracket)))
+((element (end_tag (tag_name) @constructor
+ (#match? @constructor "^[A-Z]"))))
 
 ; Attribute
 
