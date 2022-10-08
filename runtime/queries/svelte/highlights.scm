@@ -4,22 +4,71 @@
 (attribute (attribute_name ["{" "}"] @punctuation.bracket))
 (attribute "=" @punctuation.delimiter)
 (attribute (expr_attribute_value (expression ["{" "}"] @punctuation.bracket)))
-(attribute (quoted_attribute_value) @string)
 
 ; Start tags
 
-(start_tag (tag_name) @constructor (#match? @constructor "^[A-Z]"))
-(start_tag (tag_name) @tag)
-(start_tag ["<" ">"] @punctuation.bracket)
+((element (start_tag (tag_name) @tag) (text) @markup.underline)
+ (#eq? @tag "u"))
+
+((element (start_tag (tag_name) @tag) (text) @markup.inline)
+ (#match? @tag "^(code|kbd)$"))
+
+((element (start_tag (tag_name) @tag) (text) @markup.link.url)
+ (#eq? @tag "a"))
+
+((element (start_tag (tag_name) @constructor (#match? @constructor "^[A-Z]"))))
+((element (start_tag ["<" ">"] @punctuation.bracket)))
 
 ; Self closing tags
 
-(self_closing_tag (tag_name) @constructor (#match? @constructor "^[A-Z]"))
-(self_closing_tag (tag_name) @tag)
-(self_closing_tag ["<" ">" "/>"] @punctuation.bracket)
+((element (self_closing_tag ["<" ">" "/>"] @punctuation.bracket)))
+((element (self_closing_tag (tag_name) @constructor (#match? @constructor "^[A-Z]"))))
 
 ; End tags
 
-(end_tag (tag_name) @constructor (#match? @constructor "^[A-Z]"))
-(end_tag (tag_name) @tag)
-(end_tag ["</" ">"] @punctuation.bracket)
+((element (end_tag (tag_name) @constructor (#match? @constructor "^[A-Z]"))))
+((element (end_tag ["</" ">"] @punctuation.bracket)))
+
+((attribute
+   (attribute_name) @_attr
+   (quoted_attribute_value (attribute_value) @markup.link.url))
+ (#match? @_attr "^(href|src)$"))
+
+(tag_name) @tag
+(attribute_name) @variable.other.member
+(erroneous_end_tag_name) @error
+(comment) @comment
+
+[
+  (attribute_value)
+  (quoted_attribute_value)
+] @string
+
+[
+  (text)
+  (raw_text_expr)
+] @none
+
+[
+  (special_block_keyword)
+  (then)
+  (as)
+] @keyword
+
+[
+  "{"
+  "}"
+] @punctuation.brackets
+
+"=" @operator
+
+[
+  "<"
+  ">"
+  "</"
+  "/>"
+  "#"
+  ":"
+  "/"
+  "@"
+] @punctuation.definition.tag
